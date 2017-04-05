@@ -19,52 +19,50 @@ import net.sf.cglib.reflect.FastClass;
  */
 public class RpcServiceScanner {
 
-    private static Logger                     logger  = Logger
-        .getLogger(RpcServiceClassFilter.class);
+	private static Logger logger = Logger.getLogger(RpcServiceClassFilter.class);
 
-    private static Map<String, Object>        rpcServices;
+	private static Map<String, Object> rpcServices;
 
-    private static volatile RpcServiceScanner scanner = null;
+	private static volatile RpcServiceScanner scanner = null;
 
-    private RpcServiceScanner() {
-        rpcServices = new HashMap<>();
-        List<Class> classes = ClassScanner.scanPackage("com", new RpcServiceClassFilter());
-        if (classes != null && !classes.isEmpty()) {
-            for (Class<?> clazz : classes) {
-                try {
-                    Class<?>[] interfaces = clazz.getInterfaces();
-                    if (interfaces != null && interfaces.length != 0) {
-                        for (Class<?> interfaceClass : interfaces) {
-                            RPCService annotation = interfaceClass.getAnnotation(RPCService.class);
-                            if (annotation != null) {
-                                rpcServices.put(interfaceClass.getName(),
-                                    FastClass.create(clazz).newInstance());
-                            }
-                        }
-                    } else {
-                        FastClass fastClass = FastClass.create(clazz);
-                        rpcServices.put(clazz.getName(), fastClass.newInstance());
-                    }
-                } catch (InvocationTargetException e) {
-                    logger.error("", e);
-                }
-            }
-        }
-    }
+	private RpcServiceScanner() {
+		rpcServices = new HashMap<>();
+		List<Class> classes = ClassScanner.scanPackage("com", new RpcServiceClassFilter());
+		if (classes != null && !classes.isEmpty()) {
+			for (Class<?> clazz : classes) {
+				try {
+					Class<?>[] interfaces = clazz.getInterfaces();
+					if (interfaces != null && interfaces.length != 0) {
+						for (Class<?> interfaceClass : interfaces) {
+							RPCService annotation = interfaceClass.getAnnotation(RPCService.class);
+							if (annotation != null) {
+								rpcServices.put(interfaceClass.getName(), FastClass.create(clazz).newInstance());
+							}
+						}
+					} else {
+						FastClass fastClass = FastClass.create(clazz);
+						rpcServices.put(clazz.getName(), fastClass.newInstance());
+					}
+				} catch (InvocationTargetException e) {
+					logger.error("", e);
+				}
+			}
+		}
+	}
 
-    public static RpcServiceScanner getInstance() {
-        if (scanner == null) {
-            synchronized (RpcServiceScanner.class) {
-                if (scanner == null) {
-                    scanner = new RpcServiceScanner();
-                }
-            }
-        }
-        return scanner;
-    }
+	public static RpcServiceScanner getInstance() {
+		if (scanner == null) {
+			synchronized (RpcServiceScanner.class) {
+				if (scanner == null) {
+					scanner = new RpcServiceScanner();
+				}
+			}
+		}
+		return scanner;
+	}
 
-    public Object getBean(String className) {
-        return rpcServices.get(className);
-    }
+	public Object getBean(String className) {
+		return rpcServices.get(className);
+	}
 
 }

@@ -19,77 +19,76 @@ import org.dom4j.io.SAXReader;
  */
 public abstract class AbstractXMLConfig implements Config {
 
-    private static Logger logger = Logger.getLogger(AbstractXMLConfig.class);
+	private static Logger logger = Logger.getLogger(AbstractXMLConfig.class);
 
-    private Document document;
+	private Document document;
 
-    private String path;
+	private String path;
 
-    private URL resource;
+	private URL resource;
 
-    public AbstractXMLConfig(String path) {
-        try {
-            this.path = com.dolphin.core.config.ClassLoaderUtil.getAbsolutePath(path);
-        } catch (MalformedURLException e) {
-            logger.error("Config file not found.");
-        }
-        this.resource = com.dolphin.core.config.ClassLoaderUtil.getClassLoader().getResource( this.path);
-        SAXReader saxReader = new SAXReader();
-        try {
-            document = saxReader.read(resource.getFile());
-        } catch (DocumentException e) {
-            logger.error("Config init failed.", e);
-        }
-    }
+	public AbstractXMLConfig(String path) {
+		try {
+			this.path = com.dolphin.core.config.ClassLoaderUtil.getAbsolutePath(path);
+		} catch (MalformedURLException e) {
+			logger.error("Config file not found.");
+		}
+		this.resource = com.dolphin.core.config.ClassLoaderUtil.getClassLoader().getResource(path);
+		SAXReader saxReader = new SAXReader();
+		try {
+			document = saxReader.read(resource.getFile());
+		} catch (DocumentException e) {
+			logger.error("Config init failed.", e);
+		}
+	}
 
-    /**
-     * 取得xml中配置的int值，如果没有配置则默认返回0
-     *
-     * @param path
-     * @return
-     * @author jiujie
-     * 2016年7月11日 下午3:44:16
-     */
-    protected int getInt(String path) {
-        String text = null;
-        try {
-            text = document.selectSingleNode(path).getText().trim();
-            return Integer.valueOf(text);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
+	/**
+	 * 取得xml中配置的int值，如果没有配置则默认返回0
+	 *
+	 * @param path
+	 * @return
+	 * @author jiujie 2016年7月11日 下午3:44:16
+	 */
+	protected int getInt(String path) {
+		String text = null;
+		try {
+			text = document.selectSingleNode(path).getText().trim();
+			return Integer.valueOf(text);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
 
-    protected String getString(String path) {
-        String text = null;
-        try {
-            text = document.selectSingleNode(path).getText().trim();
-        } catch (Exception e) {
-            logger.error("Config read failed.", e);
-        }
-        return text;
-    }
+	protected String getString(String path) {
+		String text = null;
+		try {
+			text = document.selectSingleNode(path).getText().trim();
+		} catch (Exception e) {
+			logger.error("Config read failed.", e);
+		}
+		return text;
+	}
 
-    @SuppressWarnings("unchecked")
-    protected List<String> getStrings(String path) {
-        List<String> texts = new ArrayList<>();
-        try {
-            List<Element> elements = document.selectNodes(path);
-            for (Element element : elements) {
-                texts.add(element.getTextTrim());
-            }
-        } catch (Exception e) {
-            logger.error("Config read failed.", e);
-        }
-        return texts;
-    }
+	@SuppressWarnings("unchecked")
+	protected List<String> getStrings(String path) {
+		List<String> texts = new ArrayList<>();
+		try {
+			List<Element> elements = document.selectNodes(path);
+			for (Element element : elements) {
+				texts.add(element.getTextTrim());
+			}
+		} catch (Exception e) {
+			logger.error("Config read failed.", e);
+		}
+		return texts;
+	}
 
-    public URL getResource() {
-        return resource;
-    }
+	public URL getResource() {
+		return resource;
+	}
 
-    public String getPath() {
-        return path;
-    }
+	public String getPath() {
+		return path;
+	}
 
 }

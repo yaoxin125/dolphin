@@ -2,8 +2,8 @@ package com.dolphin.core.protocle;
 
 public interface Request {
 
-    long getId();
+	long getId();
 
-    void setId(long id);
+	void setId(long id);
 
 }

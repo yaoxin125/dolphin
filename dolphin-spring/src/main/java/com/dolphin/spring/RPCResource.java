@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * RPC资源注入注解
+ * 
  * @author jiujie
  * @version $Id: RPCResource.java, v 0.1 2016年7月7日 下午5:31:29 jiujie Exp $
  */
@@ -16,6 +17,6 @@ import java.lang.annotation.Target;
 @Documented
 public @interface RPCResource {
 
-    String name() default "";
+	String name() default "";
 
 }
