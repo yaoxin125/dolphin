@@ -33,7 +33,7 @@ public abstract class AbstractXMLConfig implements Config {
         } catch (MalformedURLException e) {
             logger.error("Config file not found.");
         }
-        this.resource = com.dolphin.core.config.ClassLoaderUtil.getClassLoader().getResource(path);
+        this.resource = com.dolphin.core.config.ClassLoaderUtil.getClassLoader().getResource( this.path);
         SAXReader saxReader = new SAXReader();
         try {
             document = saxReader.read(resource.getFile());
