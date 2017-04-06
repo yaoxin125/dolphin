@@ -10,10 +10,11 @@ import com.dolphin.netty.connector.NettyConnector;
  */
 public class RPCConnector extends NettyConnector {
 
-    public RPCConnector() {
-        super();
-        //        registerHandler("heartBeatClientHandler", new HeartBeatClientHandler());
-        //        registerHandler("timeoutHandler", new ReadTimeoutHandler(20));
-    }
+	public RPCConnector() {
+		super();
+		// registerHandler("heartBeatClientHandler", new
+		// HeartBeatClientHandler());
+		// registerHandler("timeoutHandler", new ReadTimeoutHandler(20));
+	}
 
 }

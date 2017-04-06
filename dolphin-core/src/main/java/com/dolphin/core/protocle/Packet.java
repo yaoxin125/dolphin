@@ -4,9 +4,9 @@ import com.dolphin.core.protocle.transport.Header;
 
 public interface Packet {
 
-    Header getHeader();
+	Header getHeader();
 
-    byte[] getBody();
+	byte[] getBody();
 
-    <T> T getBody(Class<T> clazz);
+	<T> T getBody(Class<T> clazz);
 }

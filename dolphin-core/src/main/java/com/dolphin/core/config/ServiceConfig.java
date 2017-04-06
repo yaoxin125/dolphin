@@ -42,7 +42,7 @@ public class ServiceConfig extends DolphinConfig {
 
 	private ServiceConfig() {
 		super();
-		this.serviceName = getString("/dolphin/service/name");
+		this.serviceName = getString("dolphin/service/name");
 		this.group = getString("/dolphin/service/group");
 		this.ip = getString("/dolphin/service/ip");
 		this.ipRegex = getString("/dolphin/service/ip-regex");
